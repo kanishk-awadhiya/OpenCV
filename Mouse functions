@@ -1,0 +1,36 @@
+import cv2
+import numpy as np
+
+ex = -1
+ey = -1
+drawing = False
+
+def draw_rectangle(event,x,y,flags,param):
+    glabal ex,ey,drawing
+    
+    if event == EVENT_LBUTTONDOWN:
+        drawing = True
+        ex,ey = x,y
+    
+    elif event == EVENT_MOUSEMOVE:
+        if drawing == True:
+            cv2.rectangle(img , (ex,ey), (x,y), (255,0,255), -1)
+    
+    elif event == EVENT_LBUTTONUP:
+        drawing = False
+        cv2.rectangle(img , (ex,ey), (x,y), (255,0,255), -1)
+        
+
+img = np.zeros((512,512),np.int8)
+
+cv2.namedWindow(winname = 'my_draw')
+
+cv2.setMouseCallback('my_draw', draw_rectangle)
+
+while True:
+    cv2.imshow('my_draw', img)
+    
+    if cv2.waitKey(5) & 0xFF == ord('q'):
+        break
+                
+cv2.destroyAllWindows()        
