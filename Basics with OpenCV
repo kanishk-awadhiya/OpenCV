@@ -1,0 +1,105 @@
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+#Use pillow module for images
+from PIL import Image
+img = Image.open('images/rock.jpg')
+img #This command will display the image
+
+img.rotate(-90) #to rotate the image clockwise
+
+type(img) #check type of image ,its JpegImageFile
+
+#we cant work with Jpeg so we change it to an numpy array
+img_array - np.asarray(img)
+
+#shape of the image
+img_array.shape
+
+#show the image
+plt.imshow(img_array)
+
+#color position is Red = 0 , Green = 1 , Blue = 2
+
+img_test = img_array.copy()
+plt.imshow(img_test[:,:,0]) #choose red channel
+
+#scale red channel to gray
+plt.imshow(img_test[:,:,0],cmap='gray')
+
+plt.imshow(img_test[:,:,1]) #choose green channel
+
+#scale green channel to gray
+plt.imshow(img_test[:,:,1],cmap='gray')
+
+plt.imshow(img_test[:,:,2]) #choose blue channel
+
+#scale blue channel to gray
+plt.imshow(img_test[:,:,0],cmap='gray')
+
+#remove the red color from the image
+img_test[:,:,0] = 0
+plt.imshow(img_test) #displays the image without the red color
+
+#remove the green color from the image
+img_test[:,:,1] = 0
+plt.imshow(img_test) #displays the image without the red and green color
+
+#remove the blue color from the image
+img_test[:,:,2] = 0
+plt.imshow(img_test) #displays the image with no color = black image
+
+
+#import OpenCV
+import cv2
+
+#get the image with imread
+img = cv2.imread('images/rock.jpg') 
+
+type(img) #numpy.ndarray
+
+imshow(img)
+
+#matplotlib reads the image with RGB channel
+#cv2 reads the channel as BGR
+
+#lets convert back to RGB channel
+img_fix = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) #convert the color from BGR to RGB
+
+#scale it to gray 
+img_gray = cv2.imread('images/rock.jpg', cv2.IMREAD_GRAYSCALE) #convert the readed image to grayscale image
+
+img_gray.shape #(height,width) with no color channels
+
+plt.imshow(img_gray,cmap='gray')
+
+img_new = cv2.resize(img_fix, (1000,400)) #(width, height) with opencv
+
+#Resize with ratio
+width_ratio = 0.5
+height_ratio = 0.5
+img2 = cv2.resize(img_fix, (0,0), img_fix, width_ratio, height_ratio)
+
+plt.imshow(img2)
+
+#horizonal flip
+img_3 = cv2.flip(img_fix, 0) #flips the image upside-down (horizonal axis = 0)
+plt.imshow(img_3)
+
+#vertical flip
+img_3 = cv2.flip(img_fix, 1) #flips the image (vertical axis = 1)
+plt.imshow(img_3)
+
+#horizontal and vertical flip
+img_3 = cv2.flip(img_fix, -1) #flips the image (horizonal axis & vertical axis = -1)
+plt.imshow(img_3)
+
+#change the size of our canvas
+last_img = plt.figure(fig_size=(10,7))
+ilp = last_img.add_subplot(111)
+'''
+These are subplot grid parameters encoded as a single integer. 
+For example, "111" means "1x1 grid, first subplot" and "234" means "2x3 grid, 4th subplot".
+'''
+ilp.imshow(img_fix)
